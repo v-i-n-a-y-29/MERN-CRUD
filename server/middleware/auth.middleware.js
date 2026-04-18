@@ -1,13 +1,19 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/user.model");
 
-const SECRET_KEY = "GHJKJSKL6789SMNDSJKS6SSNSSJSJD8S9S";
+const SECRET_KEY = process.env.JWT_SECRET;
 
 const authMiddleWare = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   const cookieToken = req.cookies?.token;
 
   try {
+    if (!SECRET_KEY) {
+      return res
+        .status(500)
+        .json({ message: "JWT secret not configured", success: false });
+    }
+
     let token = null;
     if (authHeader && authHeader.startsWith("Bearer ")) {
       token = authHeader.split(" ")[1];

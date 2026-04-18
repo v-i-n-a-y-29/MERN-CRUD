@@ -2,7 +2,7 @@ const User = require("../model/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = "GHJKJSKL6789SMNDSJKS6SSNSSJSJD8S9S";
+const SECRET_KEY = process.env.JWT_SECRET;
 
 const TOKEN_COOKIE_NAME = "token";
 
@@ -45,6 +45,12 @@ const handleSignupUserController = async (req, res) => {
 const handleSignInController = async (req, res) => {
     const body = req.body;
     try {
+        if (!SECRET_KEY) {
+            return res
+                .status(500)
+                .json({ message: "JWT secret not configured", success: false });
+        }
+
         if (!body.Email || !body.Password) {
             return res
                 .status(500)
