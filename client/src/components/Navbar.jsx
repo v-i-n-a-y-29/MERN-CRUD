@@ -1,6 +1,20 @@
 //BookName> BootTitle> AuthorName> SellingPrice> PublishDate;
-
+import { useNavigate } from "react-router-dom";
+import { userbaseurl } from "../axiosinstance";
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await userbaseurl.post('/logout');
+    } catch {
+      // ignore
+    }
+    localStorage.removeItem('authData');
+    navigate('/login');
+  };
+
+
   return (
     <div className="w-full flex justify-between h-15 items-center bg-gray-200 shadow px-5">
       <div className="w-[10%] h-full flex items-center">
@@ -15,6 +29,7 @@ const Navbar = () => {
       </div>
       <button
         className="py-1 px-4 bg-orange-500 rounded text-white cursor-pointer"
+        onClick={handleLogout}
       >
         Logout
       </button>

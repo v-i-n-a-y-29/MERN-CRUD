@@ -1,16 +1,21 @@
-import { useState } from 'react'
-import Navbar from './components/Navbar'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Home from './components/Home'
-import './App.css'
+import Login from './components/Login'
+import Signup from './components/Signup'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    <Navbar/>
-    <Home/>
-    </>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/" element={
+        <ProtectedRoute>
+          <Home/>
+        </ProtectedRoute>
+      } />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   )
 }
 

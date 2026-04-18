@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { bookbaseurl } from "../axiosinstance";
+import Navbar from "./Navbar";
 function Home() {
 
     const [bookForm, setbookForm] = useState({
@@ -64,7 +65,7 @@ function Home() {
 
     const getallBooks = async () => {
         try {
-            const { data } = await bookbaseurl.get('viewBook')
+            const { data } = await bookbaseurl.get('/viewBook')
             console.log('bookslist', data.BookList)
             setbookList(data.BookList)
             // console.log('books',bookList)
@@ -105,6 +106,7 @@ function Home() {
 
     return (
         <>
+            <Navbar/>
             <div className="w-full px-5 min-h-[calc(100vh-60px)]">
                 <div className="w-full grid grid-cols-5 gap-3 my-3">
                     <div className="w-full flex flex-col gap-2">
